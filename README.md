@@ -1,6 +1,6 @@
-# Theodore 🎋
+# Theodore 👨🏻
 
-A thoughtful AI companion that helps craft meaningful birthday messages and cards. Transform cherished memories into beautifully written birthday greetings.
+A thoughtful AI service that helps craft meaningful birthday messages and cards. Transform cherished memories into beautifully written birthday greetings.
 
 ## About
 
