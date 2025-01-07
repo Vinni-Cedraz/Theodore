@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-import openai
+from openai import OpenAI
 import requests
 from PIL import Image, ImageOps
 from io import BytesIO
@@ -13,7 +13,12 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)  # Enable CORS
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Get the OpenAI API key from the environment variables
+api_key = os.getenv("OPENAI_API_KEY")
+
+# Initialize the OpenAI client with the API key
+client = OpenAI(api_key=api_key)
 
 def resize_with_cropping(img: Image.Image, new_width: int, new_height: int) -> Image.Image:
     # Crop
@@ -48,7 +53,7 @@ def generate_card():
     Compose the message using the memory shared by the user, matching the overall mood of the message but in a cheerful way.
     Write a heartfelt birthday message for {name}, who is my {relationship}. Use this memory to compose the message: {memory}.
     """
-    completion = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": message_prompt}]
     )
@@ -62,24 +67,24 @@ def generate_card():
     and create an innovative design that sparks curiosity 
     without revealing the inside.
     """
-    image_response_front = openai.Image.create(
+    image_response_front = client.images.generate(
         prompt=image_prompt_front,
         n=1,
         size="1024x1024"
     )
-    front_image_url = image_response_front["data"][0]["url"]
+    front_image_url = image_response_front.data[0].url
 
     image_prompt_body = f"""
     Generate a .jpg image for the BODY of a birthday card, 
     inspired by: {memory}.
     Use pastel colors and keep it sparse so that the text stands out.
     """
-    image_response_body = openai.Image.create(
+    image_response_body = client.images.generate(
         prompt=image_prompt_body,
         n=1,
         size="1024x1024"
     )
-    body_image_url = image_response_body["data"][0]["url"]
+    body_image_url = image_response_body.data[0].url
 
     image_prompt_back = f"""
     Generate a .jpg image for the BACK of a birthday card,
@@ -87,12 +92,12 @@ def generate_card():
     Use pastel colors, keep it sparse, 
     and do something innovative for the back.
     """
-    image_response_back = openai.Image.create(
+    image_response_back = client.images.generate(
         prompt=image_prompt_back,
         n=1,
         size="1024x1024"
     )
-    back_image_url = image_response_back["data"][0]["url"]
+    back_image_url = image_response_back.data[0].url
 
     # Resize and save images
     response = requests.get(front_image_url)
