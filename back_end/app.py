@@ -29,9 +29,9 @@ def generate_card():
     memory = data.get("memory")
 
     # Generate images
-    front_image_url = generate_image_front(client, memory)
-    body_image_url = generate_image_body(client, memory)
-    back_image_url = generate_image_back(client, memory)
+    front_image_url, front_generation_id = generate_image_front(client, memory)
+    body_image_url, body_generation_id = generate_image_body(client, memory, front_generation_id)
+    back_image_url = generate_image_back(client, memory, body_generation_id)
 
     # Resize and save images
     response = requests.get(front_image_url)
