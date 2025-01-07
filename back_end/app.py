@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
 from PIL import Image
@@ -51,10 +51,14 @@ def generate_card():
 
     return jsonify({
         "message": f"Happy Birthday, {name}!",
-        "frontImageUrl": front_image_url,
-        "bodyImageUrl": body_image_url,
-        "backImageUrl": back_image_url
+        "frontImageUrl": request.host_url + "static/front_card.jpg",
+        "bodyImageUrl": request.host_url + "static/body_card.jpg",
+        "backImageUrl": request.host_url + "static/back_card.jpg"
     })
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('static', filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
