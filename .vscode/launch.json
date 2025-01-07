@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flask back-end",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "flask",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "env": {
+                "FLASK_APP": "back_end/app.py",
+                "FLASK_DEBUG": "1"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "jinja": true,
+            "autoStartBrowser": false
+        },
+        {
+            "name": "Flutter front-end",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "cwd": "front_end",
+            "noDebug": true,
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Fullstack",
+            "configurations": ["Flask back-end", "Flutter front-end"],
+            "noDebug": true
+        }
+    ]
+}
