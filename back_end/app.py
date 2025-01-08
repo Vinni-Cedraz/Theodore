@@ -3,10 +3,8 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
-from PIL import Image
 from io import BytesIO
-import requests
-from image_tools import resize_with_cropping, generate_image_front, generate_image_body, generate_image_back
+from image_tools import generate_image, overlay_images
 
 # Load environment variables from .env file
 load_dotenv()
@@ -28,32 +26,22 @@ def generate_card():
     relationship = data.get("relationship")
     memory = data.get("memory")
 
-    # Generate images
-    front_image_url, front_generation_id = generate_image_front(client, memory)
-    body_image_url, body_generation_id = generate_image_body(client, memory, front_generation_id)
-    back_image_url = generate_image_back(client, memory, body_generation_id)
+    # Generate bottom image
+    bottom_image_url = generate_image(client, memory)
 
-    # Resize and save images
-    response = requests.get(front_image_url)
-    img_front = Image.open(BytesIO(response.content))
-    resized_front = resize_with_cropping(img_front, 2814, 5001)
-    resized_front.save("static/front_card.jpg", "JPEG")
+    # Generate top image
+    top_image_url = generate_image(client, memory)
 
-    response = requests.get(body_image_url)
-    img_body = Image.open(BytesIO(response.content))
-    resized_body = resize_with_cropping(img_body, 5000, 3334)
-    resized_body.save("static/body_card.jpg", "JPEG")
-
-    response = requests.get(back_image_url)
-    img_back = Image.open(BytesIO(response.content))
-    resized_back = resize_with_cropping(img_back, 2814, 5001)
-    resized_back.save("static/back_card.jpg", "JPEG")
+    # Overlay images on body.jpg
+    base_image_path = "front_end/assets/images/placeholders/body.jpg"
+    overlay_image_urls = [bottom_image_url, top_image_url]
+    positions = [(0, 1024), (1024, 0)]
+    output_path = "static/body_card.png"
+    overlay_images(client, base_image_path, overlay_image_urls, positions, output_path)
 
     return jsonify({
         "message": f"Happy Birthday, {name}!",
-        "frontImageUrl": request.host_url + "static/front_card.jpg",
-        "bodyImageUrl": request.host_url + "static/body_card.jpg",
-        "backImageUrl": request.host_url + "static/back_card.jpg"
+        "bodyImageUrl": request.host_url + "static/body_card.png"
     })
 
 @app.route('/static/<path:filename>')
