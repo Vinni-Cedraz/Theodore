@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from openai import OpenAI
-from io import BytesIO
-from image_tools import generate_image, overlay_images
+from image_tools import insert_generated_images
 
 # Load environment variables from .env file
 load_dotenv()
@@ -23,21 +22,21 @@ client = OpenAI(api_key=api_key)
 def generate_card():
     data = request.get_json()
     name = data.get("name")
-    relationship = data.get("relationship")
     memory = data.get("memory")
+    relationship = data.get("relationship")
 
-    # Generate bottom image
-    bottom_image_url = generate_image(client, memory)
-
-    # Generate top image
-    top_image_url = generate_image(client, memory)
-
-    # Overlay images on body.jpg
-    base_image_path = "front_end/assets/images/placeholders/body.jpg"
-    overlay_image_urls = [bottom_image_url, top_image_url]
-    positions = [(0, 1024), (1024, 0)]
+    # Base paths
+    base_image_path = "front_end/assets/images/placeholders/body.png"
     output_path = "static/body_card.png"
-    overlay_images(client, base_image_path, overlay_image_urls, positions, output_path)
+
+    # Generate and insert images using inpainting
+    insert_generated_images(
+        client=client,
+        base_image_path=base_image_path,
+        memory=memory,
+        relationship=relationship,
+        output_path=output_path
+    )
 
     return jsonify({
         "message": f"Happy Birthday, {name}!",
