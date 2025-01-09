@@ -41,8 +41,8 @@ def insert_generated_images(client: OpenAI, base_image_path: str, memory: str, r
     top_image = Image.open("static/top_image.png").convert("RGBA")
     
     # Calculate positions
-    bottom_left_pos = (0, base_image.height - 1024)  # Bottom left
-    top_right_pos = (base_image.width - 1024, 0)     # Top right
+    bottom_left_pos = (256, base_image.height - 1280)  # Bottom left
+    top_right_pos = (base_image.width - 1280, 256)     # Top right
     
     # Paste images with alpha channel
     base_image.paste(bottom_image, bottom_left_pos, bottom_image)
