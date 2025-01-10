@@ -25,7 +25,87 @@
             "request": "launch",
             "program": "lib/main.dart",
             "cwd": "front_end",
-            "noDebug": true,
+            "noDebug": true
+        },
+        {
+            "name": "Image Test Case 1",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/image_test_cases.py",
+            "args": ["1"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Image Test Case 2",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/image_test_cases.py",
+            "args": ["2"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Image Test Case 3",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/image_test_cases.py",
+            "args": ["3"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Image Test Case 4",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/image_test_cases.py",
+            "args": ["4"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Image Test Case 5",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/image_test_cases.py",
+            "args": ["5"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Text Test Case 1",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/text_test_cases.py",
+            "args": ["1"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Text Test Case 2",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/text_test_cases.py",
+            "args": ["2"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Text Test Case 3",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/text_test_cases.py",
+            "args": ["3"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Text Test Case 4",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/text_test_cases.py",
+            "args": ["4"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Text Test Case 5",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/back_end/text_test_cases.py",
+            "args": ["5"],
+            "console": "integratedTerminal"
         }
     ],
     "compounds": [
