@@ -29,8 +29,7 @@ def generate_birthday_message(client: OpenAI, name: str, memory: str, relationsh
     """Generate a heartfelt birthday message using GPT-4."""
     prompt = (
         f"You are Theodore, the main character of the movie Her. "
-        f"Write a heartfelt birthday message for {name}, inspired by the memory: '{memory}'. "
-        f"Mention the relationship ({relationship}) in the message."
+        f"Write a heartfelt birthday message for {name}, my {relationship}, inspired by the memory: '{memory}'. "
     )
     response = client.chat.completions.create(
         model="gpt-4o",
